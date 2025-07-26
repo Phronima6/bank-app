@@ -8,3 +8,12 @@ spring:
   cloud:
     config:
       label: main
+
+exchange:
+  rate-ranges:
+    USD:
+      min: 7500
+      max: 8500
+    CNY:
+      min: 1000
+      max: 1100

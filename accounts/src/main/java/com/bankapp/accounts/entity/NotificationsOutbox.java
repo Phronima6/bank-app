@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import java.util.Objects;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -27,5 +28,18 @@ public class NotificationsOutbox {
     String message;
     @Column(name = "received", nullable = false)
     boolean received;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NotificationsOutbox that = (NotificationsOutbox) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }

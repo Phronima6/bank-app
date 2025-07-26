@@ -16,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.BatchSize;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -38,5 +39,18 @@ public class User {
     @BatchSize(size = 100)
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Account> accounts;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(login, user.login);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login);
+    }
 
 }

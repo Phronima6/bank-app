@@ -39,45 +39,22 @@ public class UserService {
 
     @Transactional
     public ResponseDto createUser(CreateUserDto createUserDto) {
-        ResponseDto response = new ResponseDto();
-        if (userRepository.findByLogin(createUserDto.getLogin()).isPresent()) {
-            response.setHasErrors(true);
-            response.getErrors().add("Такой логин уже есть.");
-        }
-        if (createUserDto.getBirthdate() == null) {
-            response.setHasErrors(true);
-            response.getErrors().add("Дата рождения должна быть заполнена.");
-        } else {
-            int age = Period.between(createUserDto.getBirthdate(), LocalDate.now()).getYears();
-            if (age < 18) {
-                response.setHasErrors(true);
-                response.getErrors().add("Вам должно быть больше 18 лет.");
-            }
-        }
-        if (createUserDto.getName() == null || createUserDto.getName().isBlank()) {
-            response.setHasErrors(true);
-            response.getErrors().add("Имя не должно быть пустым.");
-        }
-        if (createUserDto.getPassword() == null || createUserDto.getPassword().isBlank() ||
-                createUserDto.getConfirmPassword() == null || createUserDto.getConfirmPassword().isBlank()) {
-            response.setHasErrors(true);
-            response.getErrors().add("Пароль не может быть пустым.");
-        } else {
-            if (!createUserDto.getPassword().equals(createUserDto.getConfirmPassword())) {
-                response.setHasErrors(true);
-                response.getErrors().add("Пароли не совпадают.");
-            }
-        }
+        ResponseDto response = validationService.validateCreateUserDto(createUserDto);
         if (response.isHasErrors()) {
             return response;
         }
+        User user = buildUserFromDto(createUserDto);
+        userRepository.save(user);
+        return response;
+    }
+
+    private User buildUserFromDto(CreateUserDto createUserDto) {
         User user = new User();
         user.setLogin(createUserDto.getLogin());
         user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
         user.setName(createUserDto.getName());
         user.setBirthdate(createUserDto.getBirthdate());
-        userRepository.save(user);
-        return response;
+        return user;
     }
 
     @Transactional(readOnly = true)

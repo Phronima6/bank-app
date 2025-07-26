@@ -30,15 +30,29 @@ public class UserService {
     public String createUser(CreateUserDto createUserDto, RedirectAttributes model, HttpServletRequest request) {
         ResponseDto response = accountsFeignClient.createUser(createUserDto);
         if (response.isHasErrors()) {
-            model.addFlashAttribute("errors", response.getErrors());
-            model.addFlashAttribute("login", createUserDto.getLogin());
-            model.addFlashAttribute("name", createUserDto.getName());
-            model.addFlashAttribute("birthdate", createUserDto.getBirthdate());
+            handleUserCreationErrors(response, createUserDto, model);
             return "signup";
         } else {
-            authenticateUser(createUserDto, request);
+            authenticateCreatedUser(createUserDto, request);
             return "redirect:/";
         }
+    }
+
+    private void handleUserCreationErrors(ResponseDto response, CreateUserDto createUserDto, RedirectAttributes model) {
+        model.addFlashAttribute("errors", response.getErrors());
+        model.addFlashAttribute("login", createUserDto.getLogin());
+        model.addFlashAttribute("name", createUserDto.getName());
+        model.addFlashAttribute("birthdate", createUserDto.getBirthdate());
+    }
+
+    private void authenticateCreatedUser(CreateUserDto createUserDto, HttpServletRequest request) {
+        UserDetails principal = userDetailsService.loadUserByUsername(createUserDto.getLogin());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                principal, principal.getPassword(), principal.getAuthorities());
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, context);
     }
 
     public String updatePassword(String login,
@@ -59,15 +73,6 @@ public class UserService {
             model.addFlashAttribute("userAccountsErrors", response.getErrors());
         }
         return "redirect:/";
-    }
-
-    private void authenticateUser(CreateUserDto createUserDto, HttpServletRequest request) {
-        UserDetails principal = userDetailsService.loadUserByUsername(createUserDto.getLogin());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        HttpSession session = request.getSession(true);
-        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, context);
     }
 
 }

@@ -1,16 +1,28 @@
 package com.bankapp.accounts.service;
 
 import com.bankapp.accounts.dto.CashDto;
+import com.bankapp.accounts.dto.CreateUserDto;
+import com.bankapp.accounts.dto.ResponseDto;
 import com.bankapp.accounts.dto.TransferDto;
 import com.bankapp.accounts.entity.Account;
 import com.bankapp.accounts.entity.User;
+import com.bankapp.accounts.repository.UserRepository;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Service
 public class ValidationService {
+
+    UserRepository userRepository;
 
     @Transactional
     public List<String> validate(CashDto cashDto, User user) {
@@ -84,6 +96,51 @@ public class ValidationService {
             errors.add("Недостаточно средств.");
         }
         return errors;
+    }
+
+    public ResponseDto validateCreateUserDto(CreateUserDto dto) {
+        ResponseDto response = new ResponseDto();
+        if (userRepository.findByLogin(dto.getLogin()).isPresent()) {
+            response.setHasErrors(true);
+            response.getErrors().add("Такой логин уже есть.");
+        }
+        validateAge(dto.getBirthdate(), response);
+        validateName(dto.getName(), response);
+        validatePasswords(dto.getPassword(), dto.getConfirmPassword(), response);
+        return response;
+    }
+
+    private void validateAge(LocalDate birthdate, ResponseDto response) {
+        if (birthdate == null) {
+            response.setHasErrors(true);
+            response.getErrors().add("Дата рождения должна быть заполнена.");
+        } else {
+            int age = Period.between(birthdate, LocalDate.now()).getYears();
+            if (age < 18) {
+                response.setHasErrors(true);
+                response.getErrors().add("Вам должно быть больше 18 лет.");
+            }
+        }
+    }
+
+    private void validateName(String name, ResponseDto response) {
+        if (name == null || name.isBlank()) {
+            response.setHasErrors(true);
+            response.getErrors().add("Имя не должно быть пустым.");
+        }
+    }
+
+    private void validatePasswords(String password, String confirmPassword, ResponseDto response) {
+        if (password == null || password.isBlank() ||
+                confirmPassword == null || confirmPassword.isBlank()) {
+            response.setHasErrors(true);
+            response.getErrors().add("Пароль не может быть пустым.");
+        } else {
+            if (!password.equals(confirmPassword)) {
+                response.setHasErrors(true);
+                response.getErrors().add("Пароли не совпадают.");
+            }
+        }
     }
 
 }

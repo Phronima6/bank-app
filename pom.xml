@@ -10,12 +10,23 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.com.bankapp</groupId>
+	<groupId>com.bankapp</groupId>
 	<artifactId>bankapp-multimodule</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>bankapp-multimodule</name>
-	<description>YP bankapp</description>
+	<description>Bank Application - многомодульное Spring Boot приложение для управления банковскими операциями</description>
+	<url>https://github.com/Phronima6/bank-app</url>
+
+	<developers>
+		<developer>
+			<id>dev-team</id>
+			<name>Bank App Development Team</name>
+			<email>dev-team@bankapp.com</email>
+			<organization>BankApp Corp</organization>
+			<organizationUrl>https://bankapp.com</organizationUrl>
+		</developer>
+	</developers>
 
 	<modules>
 		<module>front</module>

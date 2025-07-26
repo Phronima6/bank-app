@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import java.util.Objects;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -29,5 +30,18 @@ public class Rate {
     Integer value;
     @Column(name = "base", nullable = false)
     boolean base;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rate rate = (Rate) o;
+        return Objects.equals(id, rate.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }

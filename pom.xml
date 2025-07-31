@@ -37,9 +37,6 @@
 		<module>blocker</module>
 		<module>exchange-generator</module>
 		<module>notifications</module>
-		<module>configserver</module>
-		<module>gateway</module>
-		<module>eurekaserver</module>
 	</modules>
 
 	<properties>

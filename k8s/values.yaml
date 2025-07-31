@@ -1,0 +1,225 @@
+# Global values (if any)
+global:
+  domain: bankapp.local # Example domain for ingress
+
+# Configuration for the customer-service subchart
+# NOTE: For local development (Minikube/Kind/Docker Desktop), build the image locally
+# (e.g., `docker build -t customer-service:0.0.1-SNAPSHOT .` in customer-service dir)
+# and ensure your K8s cluster can access local images (e.g., `minikube docker-env` or `kind load docker-image ...`).
+front-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: front-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: front-service.bankapp.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+blocker-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: blocker-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: blocker-service.bankapp.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+cash-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: cash-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: cash-service.bankapp.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+exchange-generator-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: exchange-generator-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: exchange-generator-service.bankapp.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+transfer-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: transfer-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: transfer-service.bankapp.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+accounts-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: accounts-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080 # Different port for order service
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: accounts-service.bankapp.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    database_url: "jdbc:postgresql://{{ .Release.Name }}-app-db:5432/appdb"
+    database_username: "appdb"
+    # database_password_secret: "{{ .Release.Name }}-order-db-postgresql"
+    # database_password_secret_key: "postgresql-password"
+
+exchange-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: exchange-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080 # Different port for order service
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: exchange-service.bankapp.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    database_url: "jdbc:postgresql://{{ .Release.Name }}-app-db:5432/appdb"
+    database_username: "appdb"
+    # database_password_secret: "{{ .Release.Name }}-order-db-postgresql"
+    # database_password_secret_key: "postgresql-password"
+
+notifications-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: notifications-service # Removed registry prefix
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080 # Different port for order service
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: notifications-service.bankapp.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    database_url: "jdbc:postgresql://{{ .Release.Name }}-app-db:5432/appdb"
+    database_username: "appdb"
+    # database_password_secret: "{{ .Release.Name }}-order-db-postgresql"
+    # database_password_secret_key: "postgresql-password"
+
+keycloak-service:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: keycloak # Removed registry prefix
+    tag: "pr"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: keycloak-service.bankapp.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+app-db:
+  enabled: true
+  # Override values from the official postgresql chart
+  auth:
+    database: appdb
+    username: appdb
+    # Use existingSecret or provide password (less secure for production)
+    # existingSecret: "{{ .Release.Name }}-customer-db-postgresql" # Name of the secret to use/create
+    password: "changeM3Customer!" # Example: Not recommended for production
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi # Small size for example
+app-kafka:
+  replicaCount: 1
+  persistence:
+    enabled: false
+  config:
+    log_flush_interval_messages: "500000"

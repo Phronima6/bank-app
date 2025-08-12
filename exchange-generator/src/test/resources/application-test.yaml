@@ -21,4 +21,4 @@ spring:
             scope: profile
             clientAuthenticationMethod: client_secret_post
 feign:
-  exchange: http://localhost:8089/exchange
+  exchange: http://localhost:8084

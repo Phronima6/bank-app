@@ -9,6 +9,7 @@
 - **Helm**
 - **Minikube**
 - **Jenkins** (plugin Blue Ocean)
+- **Kafka**
 
 ## Запуск приложения с использованием Jenkins и K8s
 

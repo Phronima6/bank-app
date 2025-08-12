@@ -1,6 +1,6 @@
 function updateExchangeRates() {
     const exchangeRatesElement = document.getElementById('exchange_rates');
-    fetch('http://front-service.bankapp.local/api/rates')
+    fetch('http://localhost:8080/api/rates')
         .then(response => response.json())
         .then(json => {
             let table = '<table style="width:100%;margin-left:auto;margin-right:auto;border-radius:2%;padding:10px;background-color:whitesmoke;">';

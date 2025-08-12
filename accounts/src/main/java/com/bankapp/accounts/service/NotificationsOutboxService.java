@@ -2,7 +2,6 @@ package com.bankapp.accounts.service;
 
 import com.bankapp.accounts.entity.NotificationsOutbox;
 import com.bankapp.accounts.feign.notifications.NotificationCreateDto;
-import com.bankapp.accounts.feign.notifications.NotificationsFeignClient;
 import com.bankapp.accounts.repository.NotificationsOutboxRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ public class NotificationsOutboxService {
 
     static Logger log = LoggerFactory.getLogger(NotificationsOutboxService.class);
     NotificationsOutboxRepository notificationsOutboxRepository;
-    NotificationsFeignClient notificationsFeignClient;
+    NotificationKafkaService notificationKafkaService;
 
     @Transactional
     public void createNotification(String login, String message) {
@@ -39,7 +38,7 @@ public class NotificationsOutboxService {
                 dto.setSourceId(notification.getId());
                 dto.setLogin(notification.getLogin());
                 dto.setMessage(notification.getMessage());
-                notificationsFeignClient.create(dto);
+                notificationKafkaService.create(dto);
                 notification.setReceived(true);
                 notificationsOutboxRepository.save(notification);
             });

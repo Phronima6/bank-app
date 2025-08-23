@@ -4,10 +4,14 @@ import com.bankapp.notifications.dto.NotificationCreateDto;
 import com.bankapp.notifications.entity.Notification;
 import com.bankapp.notifications.repository.NotificationsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.kafka.annotation.DltHandler;
@@ -17,15 +21,15 @@ import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Service
 public class NotificationService {
 
+    static Logger log = LoggerFactory.getLogger(NotificationService.class);
     NotificationsRepository notificationsRepository;
-    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper;
 
     @Transactional
     @RetryableTopic(
@@ -37,12 +41,19 @@ public class NotificationService {
     )
     @KafkaListener(topics = "notifications", containerFactory = "customKafkaListenerContainerFactory")
     public void create(String createDto) {
+        NotificationCreateDto notification;
         try {
-            NotificationCreateDto notification = objectMapper.readValue(createDto, NotificationCreateDto.class);
+            notification = objectMapper.readValue(createDto, NotificationCreateDto.class);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to deserialize NotificationCreateDto, payload={}", createDto, e);
+            throw new RuntimeException(e);
+        }
+        try {
             notificationsRepository.insertOnConflictDoNothing(new Notification(
                     notification.getSourceId(), notification.getLogin(), notification.getMessage()
             ));
         } catch (Exception e) {
+            log.error("Failed to persist notification: {}", notification, e);
             throw new RuntimeException(e);
         }
     }
@@ -55,7 +66,10 @@ public class NotificationService {
 
     @DltHandler
     public void handleDltMessage(ConsumerRecord<?, ?> record) {
-        System.out.println("Message landed in DLT: " + record.value());
+        log.error(
+                "DLT message received: topic={}, partition={}, offset={}, key={}, value={}",
+                record.topic(), record.partition(), record.offset(), record.key(), record.value()
+        );
     }
 
 }

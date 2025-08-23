@@ -1,5 +1,7 @@
 package com.bankapp.exchange.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -13,8 +15,6 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)

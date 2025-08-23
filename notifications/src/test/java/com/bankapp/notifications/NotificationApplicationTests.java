@@ -2,6 +2,8 @@ package com.bankapp.notifications;
 
 import com.bankapp.notifications.dto.NotificationCreateDto;
 import com.bankapp.notifications.service.NotificationService;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,8 +13,6 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 class NotificationApplicationTests extends SpringBootPostgreSQLTestContainerBaseTest {
 

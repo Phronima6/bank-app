@@ -2,12 +2,12 @@ package com.bankapp.exchange.service;
 
 import com.bankapp.exchange.entity.Rate;
 import com.bankapp.exchange.repository.RateRepository;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

@@ -1,7 +1,7 @@
 package com.bankapp.transfer.feign.accounts;
 
-import com.bankapp.transfer.dto.TransferDto;
 import com.bankapp.transfer.dto.ResponseDto;
+import com.bankapp.transfer.dto.TransferDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

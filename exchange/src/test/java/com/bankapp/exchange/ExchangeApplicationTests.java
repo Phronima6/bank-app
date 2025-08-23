@@ -1,5 +1,11 @@
 package com.bankapp.exchange;
 
+import com.bankapp.exchange.dto.UpdateRandomCurrencyDto;
+import com.bankapp.exchange.service.RateService;
+import java.time.Duration;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,10 +16,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import com.bankapp.exchange.dto.UpdateRandomCurrencyDto;
-import com.bankapp.exchange.service.RateService;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
@@ -39,8 +41,9 @@ class ExchangeApplicationTests extends SpringBootPostgreSQLTestContainerBaseTest
 				UUID.randomUUID().toString(),
 				new ObjectMapper().writeValueAsString(dto)
 		).get();
-		Thread.sleep(2000);
-		Mockito.verify(rateService, Mockito.times(1)).updateRandomCurrency(Mockito.anyString());
+		Awaitility.await().atMost(Duration.ofSeconds(5)).untilAsserted(() ->
+				Mockito.verify(rateService, Mockito.times(1)).applyRandomCurrencyUpdate(Mockito.any(UpdateRandomCurrencyDto.class))
+		);
 	}
 
 }

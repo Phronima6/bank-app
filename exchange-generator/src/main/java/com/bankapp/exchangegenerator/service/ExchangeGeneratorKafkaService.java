@@ -1,15 +1,15 @@
 package com.bankapp.exchangegenerator.service;
 
+import com.bankapp.exchangegenerator.dto.UpdateRandomCurrencyDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.bankapp.exchangegenerator.dto.UpdateRandomCurrencyDto;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

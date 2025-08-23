@@ -1,5 +1,8 @@
 package com.bankapp.accounts.configuration;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -12,9 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -22,6 +22,8 @@ public class KafkaConfiguration {
 
     @Value("${kafka.bootstrap.servers}")
     String bootstrapServers;
+    @Value("${kafka.topics.notifications:notifications}")
+    String notificationsTopicName;
 
     @Bean
     public AdminClient adminClient() {
@@ -29,9 +31,9 @@ public class KafkaConfiguration {
         return AdminClient.create(configs);
     }
 
-    @Bean
-    NewTopic orders() {
-        return new NewTopic("notifications", 2, (short) 1);
+    @Bean(name = "orders")
+    NewTopic notificationsTopic() {
+        return new NewTopic(notificationsTopicName, 2, (short) 1);
     }
 
     @Bean

@@ -1,5 +1,8 @@
 package com.bankapp.exchangegenerator.configuration;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -12,9 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)

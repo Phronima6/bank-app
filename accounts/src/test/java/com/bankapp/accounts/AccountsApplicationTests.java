@@ -2,6 +2,8 @@ package com.bankapp.accounts;
 
 import com.bankapp.accounts.feign.notifications.NotificationCreateDto;
 import com.bankapp.accounts.service.NotificationKafkaService;
+import java.time.Duration;
+import java.util.List;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
@@ -10,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import java.time.Duration;
-import java.util.List;
 
 class AccountsApplicationTests extends SpringBootPostgreSQLTestContainerBaseTest {
 

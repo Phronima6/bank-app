@@ -1,13 +1,13 @@
 package com.bankapp.exchangegenerator.service;
 
 import com.bankapp.exchangegenerator.dto.UpdateRandomCurrencyDto;
+import java.util.Map;
+import java.util.Random;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import java.util.Random;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

@@ -1,6 +1,7 @@
 package com.bankapp.exchangegenerator;
 
 import com.bankapp.exchangegenerator.service.UpdateRandomCurrencyService;
+import java.util.List;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -15,7 +16,6 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.context.ActiveProfiles;
-import java.util.List;
 
 @SpringBootTest
 @ActiveProfiles("test")

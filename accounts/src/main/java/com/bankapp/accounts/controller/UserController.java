@@ -9,6 +9,7 @@ import com.bankapp.accounts.dto.TransferDto;
 import com.bankapp.accounts.dto.UpdatePasswordDto;
 import com.bankapp.accounts.dto.UserDto;
 import com.bankapp.accounts.service.UserService;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

@@ -1,21 +1,20 @@
 package com.bankapp.exchangegenerator.service;
 
 import com.bankapp.exchangegenerator.dto.UpdateRandomCurrencyDto;
-import com.bankapp.exchangegenerator.feign.exchange.ExchangeFeignClient;
+import java.util.Map;
+import java.util.Random;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import java.util.Random;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Service
 public class UpdateRandomCurrencyService {
 
-    ExchangeFeignClient exchangeFeignClient;
+    ExchangeGeneratorKafkaService exchangeGeneratorKafkaService;
     static Map<String, Integer> BASE_RATES = Map.of(
         "USD", 8000,
         "CNY", 1100
@@ -37,7 +36,7 @@ public class UpdateRandomCurrencyService {
         int maxRate = (int) (baseRate * 1.1);
         newRate = Math.max(minRate, Math.min(maxRate, newRate));
         updateRandomCurrencyDto.setValue(newRate);
-        exchangeFeignClient.updateRandomCurrency(updateRandomCurrencyDto);
+        exchangeGeneratorKafkaService.updateRandomCurrency(updateRandomCurrencyDto);
     }
 
 }

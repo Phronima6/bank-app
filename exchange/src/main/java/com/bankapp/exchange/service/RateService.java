@@ -5,14 +5,14 @@ import com.bankapp.exchange.dto.RateDto;
 import com.bankapp.exchange.dto.UpdateRandomCurrencyDto;
 import com.bankapp.exchange.entity.Rate;
 import com.bankapp.exchange.repository.RateRepository;
+import java.util.List;
+import java.util.Random;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-import java.util.Random;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -35,7 +35,7 @@ public class RateService {
     }
 
     @Transactional
-    public void updateRandomCurrency(UpdateRandomCurrencyDto randomCurrencyDto) {
+    public void applyRandomCurrencyUpdate(UpdateRandomCurrencyDto updateRandomCurrencyDto) {
         List<Rate> rates = rateRepository.findAllByBaseFalse();
         if (rates.isEmpty()) {
             return;
@@ -43,7 +43,7 @@ public class RateService {
         Random random = new Random();
         int randomCurrencyIndex = random.nextInt(rates.size());
         Rate selectedRate = rates.get(randomCurrencyIndex);
-        int newValue = getRealisticValue(selectedRate.getName(), randomCurrencyDto.getValue());
+        int newValue = getRealisticValue(selectedRate.getName(), updateRandomCurrencyDto.getValue());
         selectedRate.setValue(newValue);
         rateRepository.save(selectedRate);
     }

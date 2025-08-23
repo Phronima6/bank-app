@@ -9,14 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.BatchSize;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)

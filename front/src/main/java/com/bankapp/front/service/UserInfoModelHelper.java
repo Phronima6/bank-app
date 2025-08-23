@@ -4,12 +4,12 @@ import com.bankapp.front.feign.accounts.AccountsFeignClient;
 import com.bankapp.front.feign.accounts.UserDto;
 import com.bankapp.front.feign.exchange.ExchangeFeignClient;
 import com.bankapp.front.feign.exchange.RateDto;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import java.util.List;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

@@ -1,5 +1,7 @@
 package com.bankapp.front.service;
 
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
+
 import com.bankapp.front.dto.CreateUserDto;
 import com.bankapp.front.feign.accounts.AccountSettingsDto;
 import com.bankapp.front.feign.accounts.AccountsFeignClient;
@@ -17,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)

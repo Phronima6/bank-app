@@ -7,15 +7,15 @@ import com.bankapp.accounts.dto.TransferDto;
 import com.bankapp.accounts.entity.Account;
 import com.bankapp.accounts.entity.User;
 import com.bankapp.accounts.repository.UserRepository;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

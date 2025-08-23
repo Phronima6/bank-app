@@ -1,7 +1,7 @@
 package com.bankapp.transfer.controller;
 
-import com.bankapp.transfer.dto.TransferDto;
 import com.bankapp.transfer.dto.ResponseDto;
+import com.bankapp.transfer.dto.TransferDto;
 import com.bankapp.transfer.service.TransferService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,11 +1,11 @@
 package com.bankapp.accounts.dto;
 
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)

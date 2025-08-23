@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8086
 db:
   schema-name: notifications
 spring:
@@ -48,3 +48,6 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
   application:
     name: notifications
+kafka:
+  bootstrap:
+    servers: localhost:9092

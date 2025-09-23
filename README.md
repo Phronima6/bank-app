@@ -10,6 +10,12 @@
 - **Minikube**
 - **Jenkins** (plugin Blue Ocean)
 - **Kafka**
+- **Zipkin**
+- **Prometheus**
+- **Grafana**
+- **Elastic**
+- **Logstash**
+- **Kibana**
 
 ## Запуск приложения с использованием Jenkins и K8s
 
